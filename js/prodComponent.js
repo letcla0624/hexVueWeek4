@@ -5,14 +5,12 @@ export default {
       api_url: "https://vue3-course-api.hexschool.io/v2",
       api_path: "letcla",
       categories: ["蛋糕", "甜甜圈", "馬卡龍"],
-      isLoading: false,
     };
   },
   props: ["prod", "isNew"],
   template: "#prodModalComponent",
   methods: {
     upProdBtn() {
-      this.isLoading = true;
       let api = `${this.api_url}/api/${this.api_path}/admin/product`;
       let httpMethod = "post";
 

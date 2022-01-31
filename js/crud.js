@@ -1,11 +1,10 @@
 import page from "./page.js";
+import prodComponent, { prodModal } from "./prodComponent.js";
+import delComponent, { delModal } from "./delComponent.js";
 
 const { createApp } = Vue;
 const api_url = "https://vue3-course-api.hexschool.io/v2";
 const api_path = "letcla";
-let prodModal = "";
-``;
-let delModal = "";
 const app = createApp({
   data() {
     return {
@@ -24,12 +23,10 @@ const app = createApp({
   },
   components: {
     page,
+    prodComponent,
+    delComponent,
   },
   methods: {
-    // 切換商品圖片
-    // changeImg(e) {
-    //   this.temp.imageUrl = e.target.currentSrc;
-    // },
     // 驗證 token
     checkLogin() {
       axios
@@ -118,68 +115,4 @@ const app = createApp({
 
 app.use(VueLoading.Plugin);
 app.component("loading", VueLoading.Component);
-
-// 新增／更新產品 modal 元件
-app.component("prod-modal", {
-  data() {
-    return {
-      categories: ["蛋糕", "甜甜圈", "馬卡龍"],
-    };
-  },
-  props: ["prod", "isNew"],
-  template: "#prodModalComponent",
-  methods: {
-    upProdBtn() {
-      let api = `${api_url}/api/${api_path}/admin/product`;
-      let httpMethod = "post";
-
-      if (!this.isNew) {
-        api = `${api_url}/api/${api_path}/admin/product/${this.prod.id}`;
-        httpMethod = "put";
-      }
-
-      axios[httpMethod](api, { data: this.prod })
-        .then((res) => {
-          this.$emit("success-msg", res);
-          prodModal.hide();
-        })
-        .catch((err) => {
-          this.$emit("error-msg", err);
-        });
-    },
-    // modal 裡新增其餘圖片
-    addPics() {
-      this.prod.imagesUrl.push("");
-    },
-    // modal 裡刪除其餘圖片
-    delPics(key) {
-      this.prod.imagesUrl.splice(key, 1);
-    },
-  },
-  mounted() {
-    prodModal = new bootstrap.Modal(document.querySelector("#prodModal"));
-  },
-});
-
-// 刪除產品 modal 元件
-app.component("del-modal", {
-  props: ["prod"],
-  template: "#delModal",
-  methods: {
-    delProdBtn(prodId) {
-      axios
-        .delete(`${api_url}/api/${api_path}/admin/product/${prodId}`)
-        .then((res) => {
-          this.$emit("success-msg", res);
-          delModal.hide();
-        })
-        .catch((err) => {
-          this.$emit("error-msg", err);
-        });
-    },
-  },
-  mounted() {
-    delModal = new bootstrap.Modal(document.querySelector("#delModal"));
-  },
-});
 app.mount("#app");

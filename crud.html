@@ -101,20 +101,20 @@
         aria-labelledby="prodModalLabel"
         aria-hidden="true"
       >
-        <prod-modal
+        <prod-component
           :prod="newTemp"
           :is-new="isNew"
           @success-msg="successMsg"
           @error-msg="errorMsg"
-        ></prod-modal>
+        ></prod-component>
       </div>
 
       <!-- Delete Modal -->
-      <del-modal
+      <del-component
         :prod="newTemp"
         @success-msg="successMsg"
         @error-msg="errorMsg"
-      ></del-modal>
+      ></del-component>
 
       <!-- 更新/刪除後跳出成功或失敗 model -->
       <template v-if="del">

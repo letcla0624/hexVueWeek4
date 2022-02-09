@@ -37,10 +37,15 @@ const app = createApp({
     // 顯示 or 隱藏密碼
     showPwd() {
       this.pwd = !this.pwd;
-      if (password.type === "password") {
-        password.type = "text";
+      // if (password.type === "password") {
+      //   password.type = "text";
+      // } else {
+      //   password.type = "password";
+      // }
+      if (this.$refs.password.type === "password") {
+        this.$refs.password.type = "text";
       } else {
-        password.type = "password";
+        this.$refs.password.type = "password";
       }
     },
     // 關閉登入失敗 modal 訊息

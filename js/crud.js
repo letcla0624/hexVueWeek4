@@ -10,7 +10,7 @@ const app = createApp({
     return {
       showErr: false,
       del: false,
-      errTitle: "",
+      showTitle: "",
       delSuccess: true,
       isLoading: false,
       isNew: true,
@@ -38,7 +38,7 @@ const app = createApp({
           this.isLoading = false;
           // 驗證失敗跳出 modal 訊息
           this.showErr = true;
-          this.errTitle = err.response.data.message;
+          this.showTitle = err.response.data.message;
         });
     },
     // 取得商品
@@ -56,7 +56,6 @@ const app = createApp({
           console.dir(err);
         });
     },
-
     // 開啟 modal
     openModal(txt, item) {
       if (txt === "create") {
@@ -67,7 +66,7 @@ const app = createApp({
         prodModal.show();
       } else if (txt === "edit") {
         this.isNew = false;
-        this.newTemp = { ...item };
+        this.newTemp = JSON.parse(JSON.stringify(item));
         prodModal.show();
       } else {
         this.isNew = false;
@@ -85,20 +84,33 @@ const app = createApp({
       this.isLoading = false;
       this.del = true;
       this.delSuccess = res.data.success;
-      this.errTitle = res.data.message;
+      this.showTitle = res.data.message;
       this.getData();
     },
-    // // 跳出失敗 modal 訊息
+    // 跳出失敗 modal 訊息
     errorMsg(err) {
       this.isLoading = false;
       this.del = true;
       this.delSuccess = err.response.data.success;
-      this.errTitle = err.response.data.message;
+      this.showTitle = err.response.data.message;
     },
     // 關閉驗證失敗 modal 訊息，並重新導回登入頁
     closeErr() {
       this.showErr = false;
       window.location = "login.html";
+    },
+    // 登出
+    logOut() {
+      this.isLoading = true;
+      axios
+        .post(`${api_url}/logout`)
+        .then((res) => {
+          this.isLoading = false;
+          window.location = "login.html";
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
     },
   },
   created() {

@@ -10,6 +10,7 @@ export default {
   template: "#delModal",
   methods: {
     delProdBtn(prodId) {
+      let loader = this.$loading.show();
       axios
         .delete(`${this.api_url}/api/${this.api_path}/admin/product/${prodId}`)
         .then((res) => {
